@@ -1,4 +1,4 @@
-# Unity generated files and cache
+# Unity tarafından oluşturulan geçici dosyalar ve önbellekler
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -7,17 +7,14 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
-# MemoryCaptures and Recordings (can be large)
+# Bellek yakalamaları ve kayıt dosyaları (büyük olabilir)
 /[Mm]emoryCaptures/
 /[Rr]ecordings/
 
-# Ignore Asset Store tools plugin (uncomment if needed)
-# /[Aa]ssets/AssetStoreTools*
+# Unity Asset Store eklentileri (isteğe bağlı olarak dahil edilebilir)
+/[Aa]ssets/AssetStoreTools*
 
-# JetBrains Rider plugin
-/[Aa]ssets/Plugins/Editor/JetBrains*
-
-# Visual Studio and IDE-specific files
+# IDE, derleyici ve yapılandırma dosyaları
 .vs/
 .gradle/
 ExportedObj/
@@ -37,40 +34,40 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-# Unity generated meta files
+# Unity tarafından oluşturulan meta dosyalar
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
 
-# Unity crash reports
+# Unity çökme raporları ve sistem bilgileri
 sysinfo.txt
 
-# Builds (executables, packages, and archives)
+# Derlenmiş dosyalar (APK, AAB, Unity Package vb.)
 *.apk
 *.aab
 *.unitypackage
 *.unitypackage.meta
 *.app
 
-# Crashlytics files
+# Crashlytics hata raporlama dosyaları
 crashlytics-build.properties
 
-# Packed Addressables (can be large)
+# Unity Addressables tarafından oluşturulan büyük dosyalar
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
-# Temporary auto-generated Android Assets
+# Geçici Android varlıkları
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Ignore large asset files (uncomment if needed)
-/[Aa]ssets/[Tt]extures/
-/[Aa]ssets/[Ss]ounds/
-/[Aa]ssets/[Vv]ideos/
-/[Aa]ssets/[Mm]odels/
-/[Aa]ssets/[Aa]nimations/
-/[Aa]ssets/[Ff]onts/
+# Büyük varlıkları (Assets klasöründeki büyük dosyalar) hariç tut
+[Aa]ssets/[Tt]extures/
+[Aa]ssets/[Ss]ounds/
+[Aa]ssets/[Vv]ideos/
+[Aa]ssets/[Mm]odels/
+[Aa]ssets/[Aa]nimations/
+[Aa]ssets/[Ff]onts/
 
-# Prevent GitHub file size limit errors
+# GitHub'un büyük dosya boyutu limitlerinden kaçınmak için Git LFS kullanılması gereken dosya türleri
 *.psd
 *.tga
 *.tiff
@@ -84,3 +81,10 @@ crashlytics-build.properties
 *.7z
 *.tar.gz
 *.iso
+
+# Unity’nin oluşturduğu önbellek ve temporary dosyaları
+/[Cc]ache/
+*.tmp
+*.bak
+*.swp
+*.lock
