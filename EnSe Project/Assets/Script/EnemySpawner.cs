@@ -1,23 +1,48 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemyPrefabs; // Farklý düþman türlerini içeren dizi
     public float spawnDistance = 10f; // Kameranýn saðýnda spawn olma mesafesi
     public float destroyDistance = 12f; // Kameranýn solunda yok edilme mesafesi
-    public float spawnRate = 3f; // Kaç saniyede bir düþman spawn olacak
+    public float spawnTriggerDistance = 10f; // Kamera her 10 birim ilerlediðinde yeni batch baþlar
+    public int enemyBatchCount = 3; // Her 10 birim hareket baþýna kaç düþman spawn edilecek
+    public float spawnInterval = 1f; // Düþmanlar kaç saniye arayla spawn edilecek
 
-    private float nextSpawnTime = 0f;
+    private float lastSpawnX; // En son ne zaman batch tetiklendi
+    private bool isSpawning = false; // Þu anda batch spawnlanýyor mu?
+
+    void Start()
+    {
+        lastSpawnX = Camera.main.transform.position.x;
+    }
 
     void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        float cameraX = Camera.main.transform.position.x;
+
+        // Kamera her 10 birim hareket ettiðinde ve þu anda spawn iþlemi yoksa, yeni batch baþlat
+        if (cameraX - lastSpawnX >= spawnTriggerDistance && !isSpawning)
         {
-            SpawnEnemy();
-            nextSpawnTime = Time.time + spawnRate;
+            StartCoroutine(SpawnEnemyBatch());
+            lastSpawnX = cameraX; // Yeni spawn iþlemi için X konumunu kaydet
         }
 
         DestroyOffscreenEnemies();
+    }
+
+    IEnumerator SpawnEnemyBatch()
+    {
+        isSpawning = true; // Spawn iþlemi baþladý
+
+        for (int i = 0; i < enemyBatchCount; i++)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(spawnInterval); // Her düþman belirlenen zaman aralýðýnda spawn olacak
+        }
+
+        isSpawning = false; // Batch tamamlandý, tekrar tetiklenebilir
     }
 
     void SpawnEnemy()

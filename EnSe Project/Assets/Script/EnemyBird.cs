@@ -29,6 +29,6 @@ public class EnemyBird : Enemy
         float verticalMovement = Mathf.Sin(Time.time * 2f + timeOffset) * flyHeight;
 
         // Rigidbody'yi kullanarak yatay ve dikey hareketi aynı anda uygula
-        rb.velocity = new Vector2(-speed, verticalMovement);
+        rb.linearVelocity = new Vector2(-speed, verticalMovement);
     }
 }
