@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private float jumpPressTime = 0f;
+    public bool killedEnemy = false; // Eğer oyuncu bir düşmanı öldürdüyse, bu flag true olacak
 
     void Start()
     {
@@ -41,6 +42,29 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+    }
+
+    public void Die()
+    {
+        if (killedEnemy)
+        {
+            // Eğer oyuncu bu çarpışma sırasında düşmanı öldürdüyse, ölmemeli
+            return;
+        }
+
+        Debug.Log("Player öldü!");
+        gameObject.SetActive(false); // Oyuncuyu yok et
+    }
+
+    public void SetKilledEnemy()
+    {
+        killedEnemy = true;
+        Invoke("ResetKilledEnemy", 0.1f); // 100ms sonra flag sıfırlanacak
+    }
+
+    private void ResetKilledEnemy()
+    {
+        killedEnemy = false;
     }
 
     void HandleJump()
@@ -91,4 +115,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-

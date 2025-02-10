@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 245684671}
   m_Layer: 0
   m_Name: PlayerEn
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   highJumpForce: 8
   holdJumpThreshold: 0.3
   cameraTransform: {fileID: 519420032}
+  killedEnemy: 0
 --- !u!58 &245684672
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -319,7 +320,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &245684674
 SpriteRenderer:
@@ -693,7 +694,7 @@ GameObject:
   - component: {fileID: 1355618990}
   m_Layer: 0
   m_Name: PlayerSe
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -716,6 +717,7 @@ MonoBehaviour:
   highJumpForce: 8
   holdJumpThreshold: 0.3
   cameraTransform: {fileID: 519420032}
+  killedEnemy: 0
 --- !u!58 &1355618991
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -777,7 +779,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &1355618993
 SpriteRenderer:
