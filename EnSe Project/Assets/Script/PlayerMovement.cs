@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int playerID = 1; // Oyuncu ID'si (1 = Player1, 2 = Player2)
-    public float moveSpeed = 5f; // Hareket hızı
-    public float normalJumpForce = 5f; // Normal zıplama kuvveti
-    public float highJumpForce = 8f; // Uzun basıldığında ekstra zıplama
-    public float holdJumpThreshold = 0.3f; // Uzun basma süresi (300ms)
-    public Transform cameraTransform; // Kamera referansı (sınırları belirlemek için)
+    public int playerID = 1; // Player ID (1 = Player1, 2 = Player2)
+    public float moveSpeed = 5f; // Movement speed
+    public float normalJumpForce = 5f; // Regular jump force
+    public float highJumpForce = 8f; // Extra jump force when holding
+    public float holdJumpThreshold = 0.3f; // Hold duration for high jump (300ms)
+    public Transform cameraTransform; // Camera reference for boundaries
 
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private float jumpPressTime = 0f;
-    public bool killedEnemy = false; // Eğer oyuncu bir düşmanı öldürdüyse, bu flag true olacak
+    public bool killedEnemy = false; // Becomes true when the player kills an enemy
 
     void Start()
     {
@@ -48,18 +48,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (killedEnemy)
         {
-            // Eğer oyuncu bu çarpışma sırasında düşmanı öldürdüyse, ölmemeli
             return;
         }
 
-        Debug.Log("Player öldü!");
-        gameObject.SetActive(false); // Oyuncuyu yok et
+        Debug.Log("Player died!");
+        gameObject.SetActive(false);
     }
 
     public void SetKilledEnemy()
     {
         killedEnemy = true;
-        Invoke("ResetKilledEnemy", 0.1f); // 100ms sonra flag sıfırlanacak
+        Invoke("ResetKilledEnemy", 0.1f);
     }
 
     private void ResetKilledEnemy()
@@ -88,12 +87,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (cameraTransform == null) return;
 
-        // Kameranın sol ve sağ sınırlarını hesapla
+        // Calculate left and right camera limits
         float cameraHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
         float leftLimit = cameraTransform.position.x - cameraHalfWidth + 0.5f;
         float rightLimit = cameraTransform.position.x + cameraHalfWidth - 0.5f;
 
-        // Oyuncunun konumunu sınırlar içinde tut
+        // Keep player within screen boundaries
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, leftLimit, rightLimit);
         transform.position = clampedPosition;

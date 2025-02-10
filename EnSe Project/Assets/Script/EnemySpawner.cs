@@ -3,15 +3,15 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs; // Farklý düþman türlerini içeren dizi
-    public float spawnDistance = 10f; // Kameranýn saðýnda spawn olma mesafesi
-    public float destroyDistance = 12f; // Kameranýn solunda yok edilme mesafesi
-    public float spawnTriggerDistance = 10f; // Kamera her 10 birim ilerlediðinde yeni batch baþlar
-    public int enemyBatchCount = 3; // Her 10 birim hareket baþýna kaç düþman spawn edilecek
-    public float spawnInterval = 1f; // Düþmanlar kaç saniye arayla spawn edilecek
+    public GameObject[] enemyPrefabs; // Array of enemy types
+    public float spawnDistance = 10f; // Distance ahead of the camera to spawn enemies
+    public float destroyDistance = 12f; // Distance behind the camera to destroy enemies
+    public float spawnTriggerDistance = 10f; // Triggers a new batch every 10 units moved
+    public int enemyBatchCount = 3; // Number of enemies per batch
+    public float spawnInterval = 1f; // Time between enemy spawns in a batch
 
-    private float lastSpawnX; // En son ne zaman batch tetiklendi
-    private bool isSpawning = false; // Þu anda batch spawnlanýyor mu?
+    private float lastSpawnX; // Last camera position when a batch was triggered
+    private bool isSpawning = false; // Is a batch currently spawning?
 
     void Start()
     {
@@ -22,11 +22,11 @@ public class EnemySpawner : MonoBehaviour
     {
         float cameraX = Camera.main.transform.position.x;
 
-        // Kamera her 10 birim hareket ettiðinde ve þu anda spawn iþlemi yoksa, yeni batch baþlat
+        // Start a new batch if the camera moved 10 units and no batch is active
         if (cameraX - lastSpawnX >= spawnTriggerDistance && !isSpawning)
         {
             StartCoroutine(SpawnEnemyBatch());
-            lastSpawnX = cameraX; // Yeni spawn iþlemi için X konumunu kaydet
+            lastSpawnX = cameraX;
         }
 
         DestroyOffscreenEnemies();
@@ -34,24 +34,24 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemyBatch()
     {
-        isSpawning = true; // Spawn iþlemi baþladý
+        isSpawning = true; // Start spawning
 
         for (int i = 0; i < enemyBatchCount; i++)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(spawnInterval); // Her düþman belirlenen zaman aralýðýnda spawn olacak
+            yield return new WaitForSeconds(spawnInterval); // Wait before spawning the next one
         }
 
-        isSpawning = false; // Batch tamamlandý, tekrar tetiklenebilir
+        isSpawning = false; // Batch completed, ready for next trigger
     }
 
     void SpawnEnemy()
     {
         if (enemyPrefabs.Length == 0) return;
 
-        // Kamera pozisyonuna göre spawn noktasý belirle
+        // Define spawn position based on camera position
         float spawnX = Camera.main.transform.position.x + spawnDistance;
-        float spawnY = Random.Range(-2f, 2f); // Farklý yüksekliklerde spawn olmasý için rastgele Y
+        float spawnY = Random.Range(-2f, 2f); // Random Y position for variation
 
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0);
         GameObject enemyToSpawn = GetRandomEnemy();
@@ -60,18 +60,18 @@ public class EnemySpawner : MonoBehaviour
 
     GameObject GetRandomEnemy()
     {
-        // Düþman ihtimalleri (%50 yavaþ, %30 hýzlý, %20 zýplayan)
+        // Enemy spawn chances: 50% slow, 30% fast, 20% jumping
         float randomValue = Random.value;
 
-        if (randomValue <= 0.5f) // %50 Yavaþ düþman
+        if (randomValue <= 0.5f) // 50% Slow enemy
         {
             return enemyPrefabs[0];
         }
-        else if (randomValue <= 0.8f) // %30 Hýzlý düþman
+        else if (randomValue <= 0.8f) // 30% Fast enemy
         {
             return enemyPrefabs[1];
         }
-        else // %20 Zýplayan düþman
+        else // 20% Jumping enemy
         {
             return enemyPrefabs[2];
         }

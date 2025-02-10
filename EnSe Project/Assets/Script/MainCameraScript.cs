@@ -4,14 +4,14 @@ public class MainCameraScript : MonoBehaviour
 {
     public Transform player1;
     public Transform player2;
-    public float smoothSpeed = 0.125f; // Kameranýn yumuþak hareket etme hýzý
-    public Vector3 offset = new Vector3(0, 0, -10); // Kamera mesafesi
+    public float smoothSpeed = 0.125f; // Smooth camera movement speed
+    public Vector3 offset = new Vector3(0, 0, -10); // Camera offset
 
-    private float minX; // Kameranýn gidebileceði minimum X deðeri
+    private float minX; // Minimum X position for the camera
 
     void Start()
     {
-        // Kameranýn baþlangýç pozisyonunu belirle
+        // Set the initial camera position
         minX = transform.position.x;
     }
 
@@ -19,16 +19,16 @@ public class MainCameraScript : MonoBehaviour
     {
         if (player1 != null && player2 != null)
         {
-            // Ýki oyuncunun X pozisyonlarýnýn ortalamasýný al
+            // Get the average X position of both players
             float targetX = (player1.position.x + player2.position.x) / 2;
 
-            // Eðer yeni pozisyon mevcut kameranýn solunda kalýyorsa, onu güncelleme (Sadece saða gider)
+            // Update only if the new position is to the right (camera moves forward only)
             if (targetX > minX)
             {
                 minX = targetX;
             }
 
-            // Kameranýn Y'si deðiþmez, X'ini yavaþça güncelle
+            // Keep Y position fixed, update X smoothly
             Vector3 desiredPosition = new Vector3(minX, transform.position.y, offset.z);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class EnemyHeadTrigger : MonoBehaviour
 {
-    private Enemy enemy; // Bağlı olduğu düşmanı takip eder
+    private Enemy enemy; // Tracks the attached enemy
 
     private void Start()
     {
-        enemy = GetComponentInParent<Enemy>(); // Enemy parent'ını al
+        enemy = GetComponentInParent<Enemy>(); // Get the parent enemy
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,13 +17,13 @@ public class EnemyHeadTrigger : MonoBehaviour
 
             if (player != null)
             {
-                // Oyuncu düşmanı öldürdü, "killedEnemy" flag'ini aç (100ms sonra kapanacak)
+                // Player killed the enemy, activate "killedEnemy" flag (resets after 100ms)
                 player.SetKilledEnemy();
 
-                // Düşmanı yok et
+                // Destroy the enemy
                 enemy.Die();
 
-                // Küçük bir yukarı zıplama efekti (Mario gibi)
+                // Apply a small jump effect (like in mario)
                 Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {

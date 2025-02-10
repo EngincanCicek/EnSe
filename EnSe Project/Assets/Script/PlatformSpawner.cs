@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
 {
-    public GameObject platformPrefab; // Platform prefabý
-    public Transform cameraTransform; // Ana kamera
-    public float platformWidth = 5f; // Platform geniþliði
-    public float minHeight = -2f, maxHeight = 2f; // Rastgele yükseklik sýnýrlarý
+    public GameObject platformPrefab; // Platform prefab
+    public Transform cameraTransform; // Main camera
+    public float platformWidth = 5f; // Platform width
+    public float minHeight = -2f, maxHeight = 2f; // Random height range
 
-    private Vector3 lastPlatformPosition; // En son oluþturulan platformun pozisyonu
+    private Vector3 lastPlatformPosition; // Last spawned platform position
 
     void Start()
     {
-        // Ýlk platformu yerleþtir
+        // Place the first platform
         lastPlatformPosition = transform.position;
         SpawnPlatform();
     }
@@ -28,7 +28,7 @@ public class PlatformSpawner : MonoBehaviour
 
     bool ShouldSpawnNewPlatform()
     {
-        // En son eklenen platform kamera sýnýrýna yaklaþýnca yeni platform üret
+        // Spawn a new platform when the last one is near the camera's edge
         return lastPlatformPosition.x < cameraTransform.position.x + (cameraTransform.GetComponent<Camera>().orthographicSize * 2);
     }
 
@@ -39,21 +39,21 @@ public class PlatformSpawner : MonoBehaviour
         Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0);
 
         GameObject newPlatform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
-        newPlatform.tag = "Platform"; // Platformlarý yönetmek için etiket
+        newPlatform.tag = "Platform"; // Set tag for management
 
-        // Son oluþturulan platformun pozisyonunu güncelle
+        // Update last platform position
         lastPlatformPosition = spawnPosition;
     }
 
     void DestroyOldPlatforms()
     {
-        // Kameranýn sol sýnýrýnýn dünya koordinatlarýný al
+        // Get the world position of the left camera edge
         float cameraLeftEdge = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 0)).x;
 
-        // "Platform" etiketi olan tüm nesneleri kontrol et
+        // Check all objects with the "Platform" tag
         foreach (GameObject platform in GameObject.FindGameObjectsWithTag("Platform"))
         {
-            // Platformun sol sýnýrýnýn kamera dýþýna çýkýp çýkmadýðýný kontrol et
+            // Destroy platforms that are off the left screen
             if (platform.transform.position.x + platformWidth < cameraLeftEdge)
             {
                 Destroy(platform);

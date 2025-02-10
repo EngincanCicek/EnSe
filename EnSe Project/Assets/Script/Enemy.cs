@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     public virtual void Die()
     {
-        Destroy(gameObject); // Düþmaný yok et
+        Destroy(gameObject); // Destroy enemy
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -15,11 +15,11 @@ public class Enemy : MonoBehaviour
 
             if (player != null)
             {
-                // Eðer oyuncu az önce düþmaný öldürdüyse zarar görmeyecek
+                // kill cooldown for player
                 if (player.killedEnemy) return;
 
                 Debug.Log("Player yandan veya alttan çarptý, öldü!");
-                player.Die(); // Oyuncuyu öldür
+                player.Die(); // Kill player
             }
         }
     }

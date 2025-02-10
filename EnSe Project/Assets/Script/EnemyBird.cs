@@ -12,23 +12,23 @@ public class EnemyBird : Enemy
     {
         rb = GetComponent<Rigidbody2D>();
 
-        // Yerçekimini kapat, rotation'u dondur
+        // Disable gravity and freeze rotation
         rb.gravityScale = 0;
         rb.freezeRotation = true;
 
-        // Başlangıç yüksekliğini kaydet
+        // Save the initial Y position
         initialY = transform.position.y;
 
-        // Rastgele zaman ofseti ekleyerek düşmanların aynı dalgada olmamasını sağla
+        // Add a random time offset to prevent all enemies from moving in sync
         timeOffset = Random.Range(0f, Mathf.PI * 2);
     }
 
     void FixedUpdate()
     {
-        // Dikey sinüs dalgası hareketi
+        // Apply vertical movement using a sine wave
         float verticalMovement = Mathf.Sin(Time.time * 2f + timeOffset) * flyHeight;
 
-        // Rigidbody'yi kullanarak yatay ve dikey hareketi aynı anda uygula
+        // Use Rigidbody to apply both horizontal and vertical movement
         rb.linearVelocity = new Vector2(-speed, verticalMovement);
     }
 }
