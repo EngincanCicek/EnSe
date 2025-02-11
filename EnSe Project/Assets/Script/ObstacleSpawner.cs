@@ -36,7 +36,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         float spawnX = lastObstaclePosition.x + Random.Range(5f, 8f); // Randomize obstacle spacing
         float spawnY = Random.Range(minHeight, maxHeight);
-        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0);
+        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 1);
 
         GameObject newObstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity);
         newObstacle.tag = "Obstacle"; // Set tag for management

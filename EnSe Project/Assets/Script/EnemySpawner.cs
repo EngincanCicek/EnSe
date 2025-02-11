@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
         float spawnX = Camera.main.transform.position.x + spawnDistance;
         float spawnY = Random.Range(-2f, 2f); // Random Y position for variation
 
-        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0);
+        Vector2 spawnPosition = new Vector2(spawnX, spawnY);
         GameObject enemyToSpawn = GetRandomEnemy();
         Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
     }
