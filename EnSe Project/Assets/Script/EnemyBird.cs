@@ -2,33 +2,39 @@ using UnityEngine;
 
 public class EnemyBird : Enemy
 {
-    public float flyHeight = 1f;
-    public float speed = 1f;
+    public float flyHeight = 2f;
+    public float speed = 20f;
     private Rigidbody2D rb;
     private float initialY;
     private float timeOffset;
+    private NearestPlayerFinder playerFinder = new NearestPlayerFinder();
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        // Disable gravity and freeze rotation
         rb.gravityScale = 0;
         rb.freezeRotation = true;
-
-        // Save the initial Y position
         initialY = transform.position.y;
-
-        // Add a random time offset to prevent all enemies from moving in sync
         timeOffset = Random.Range(0f, Mathf.PI * 2);
     }
 
     void FixedUpdate()
     {
-        // Apply vertical movement using a sine wave
-        float verticalMovement = Mathf.Sin(Time.time * 2f + timeOffset) * flyHeight;
+        MoveTowardsNearestPlayer();
+    }
 
-        // Use Rigidbody to apply both horizontal and vertical movement
-        rb.linearVelocity = new Vector2(-speed, verticalMovement);
+    void MoveTowardsNearestPlayer()
+    {
+        Vector3 targetPosition = playerFinder.GetTargetPosition(transform.position);
+        float targetX = targetPosition.x;
+
+        // Move towards the player's X position
+        float newX = Mathf.MoveTowards(transform.position.x, targetX, speed * Time.fixedDeltaTime);
+
+        // Apply vertical movement using a sine wave
+        float newY = initialY + Mathf.Sin(Time.time * 2f + timeOffset) * flyHeight;
+
+        // Apply movement
+        rb.linearVelocity = new Vector2(newX - transform.position.x, newY - transform.position.y);
     }
 }
