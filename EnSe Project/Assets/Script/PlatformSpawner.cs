@@ -4,7 +4,7 @@ public class PlatformSpawner : MonoBehaviour
 {
     public GameObject platformPrefab; // Platform prefab
     public Transform cameraTransform; // Main camera
-    public float platformWidth = 5f; // Platform width
+    public float platformWidth = 15f; // Platform width
     public float minHeight = -2f, maxHeight = 2f; // Random height range
 
     private Vector3 lastPlatformPosition; // Last spawned platform position
