@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class EnemyHeadTrigger : MonoBehaviour
 {
-    private Enemy enemy; // Tracks the attached enemy
+    private Enemy enemy;
 
     private void Start()
     {
-        enemy = GetComponentInParent<Enemy>(); // Get the parent enemy
+        enemy = GetComponentInParent<Enemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,19 +17,20 @@ public class EnemyHeadTrigger : MonoBehaviour
 
             if (player != null)
             {
-                // Player killed the enemy, activate "killedEnemy" flag (resets after 100ms)
-                player.SetKilledEnemy();
-
-                // Destroy the enemy
                 enemy.Die();
 
-                // Apply a small jump effect (like in mario)
+                // Small jump effect
                 Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x, 5f);
                 }
             }
+        }
+        else if (collision.CompareTag("BoxingGlove"))
+        {
+            Destroy(enemy.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }

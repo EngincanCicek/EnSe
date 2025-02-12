@@ -2,21 +2,29 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int playerID = 1; // Player ID (1 = Player1, 2 = Player2)
-    public float moveSpeed = 5f; // Movement speed
-    public float normalJumpForce = 5f; // Regular jump force
-    public float highJumpForce = 8f; // Extra jump force when holding
-    public float holdJumpThreshold = 0.3f; // Hold duration for high jump (300ms)
-    public Transform cameraTransform; // Camera reference for boundaries
+    public int playerID = 1;
+    public float moveSpeed = 5f;
+    public float normalJumpForce = 5f;
+    public float highJumpForce = 8f;
+    public float holdJumpThreshold = 0.3f;
+    public Transform cameraTransform;
+    public GameObject boxingGlovePrefab;
+    public Transform gloveSpawnPoint;
+    public float throwForce = 15f;
 
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private float jumpPressTime = 0f;
-    public bool killedEnemy = false; // Becomes true when the player kills an enemy
+    private bool canThrow = true;
+    private GameObject currentGlove;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (playerID == 2)
+        {
+            InvokeRepeating("SpawnBoxingGlove", 3f, 3f);
+        }
     }
 
     void Update()
@@ -24,6 +32,17 @@ public class PlayerMovement : MonoBehaviour
         Move();
         HandleJump();
         ClampPosition();
+
+        if (playerID == 2 && Input.GetMouseButtonDown(0) && currentGlove != null)
+        {
+            ThrowBoxingGlove();
+        }
+
+        // Keep glove attached to player until thrown
+        if (currentGlove != null)
+        {
+            currentGlove.transform.position = gloveSpawnPoint.position;
+        }
     }
 
     void Move()
@@ -44,26 +63,42 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
     }
 
-    public void Die()
+    void SpawnBoxingGlove()
     {
-        if (killedEnemy)
+        if (!canThrow || boxingGlovePrefab == null || gloveSpawnPoint == null || currentGlove != null) return;
+
+        currentGlove = Instantiate(boxingGlovePrefab, gloveSpawnPoint.position, Quaternion.identity);
+        currentGlove.transform.SetParent(transform);
+    }
+
+    void ThrowBoxingGlove()
+    {
+        if (currentGlove == null) return;
+
+        currentGlove.transform.SetParent(null);
+
+        // Get direction from player to mouse cursor
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0;
+        Vector2 throwDirection = (mousePosition - currentGlove.transform.position).normalized;
+
+        Rigidbody2D gloveRb = currentGlove.GetComponent<Rigidbody2D>();
+        if (gloveRb != null)
         {
-            return;
+            gloveRb.gravityScale = 0;
+            gloveRb.linearVelocity = throwDirection * throwForce;
         }
 
-        Debug.Log("Player died!");
-        gameObject.SetActive(false);
+        Destroy(currentGlove, 1f);
+        currentGlove = null;
+
+        canThrow = false;
+        Invoke("ResetThrow", 3f);
     }
 
-    public void SetKilledEnemy()
+    void ResetThrow()
     {
-        killedEnemy = true;
-        Invoke("ResetKilledEnemy", 0.1f);
-    }
-
-    private void ResetKilledEnemy()
-    {
-        killedEnemy = false;
+        canThrow = true;
     }
 
     void HandleJump()
@@ -87,12 +122,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (cameraTransform == null) return;
 
-        // Calculate left and right camera limits
         float cameraHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
         float leftLimit = cameraTransform.position.x - cameraHalfWidth + 0.5f;
         float rightLimit = cameraTransform.position.x + cameraHalfWidth - 0.5f;
 
-        // Keep player within screen boundaries
         Vector3 clampedPosition = transform.position;
         clampedPosition.x = Mathf.Clamp(clampedPosition.x, leftLimit, rightLimit);
         transform.position = clampedPosition;
@@ -112,5 +145,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Player died!");
+        gameObject.SetActive(false);
     }
 }

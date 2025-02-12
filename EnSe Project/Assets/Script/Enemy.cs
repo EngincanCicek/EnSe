@@ -15,8 +15,6 @@ public class Enemy : MonoBehaviour
 
             if (player != null)
             {
-                // kill cooldown for player
-                if (player.killedEnemy) return;
 
                 Debug.Log("Player yandan veya alttan çarptý, öldü!");
                 player.Die(); // Kill player
