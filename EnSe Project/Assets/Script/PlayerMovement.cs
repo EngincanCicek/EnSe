@@ -17,10 +17,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canThrow = true;
     private GameObject currentGlove;
     private bool isInvincible = false; // Prevents immediate death
+    private Collider2D foot; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        foot = GetComponentInChildren<Collider2D>();
         if (playerID == 2)
         {
             InvokeRepeating("SpawnBoxingGlove", 3f, 3f);
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleJump()
     {
+        Debug.Log("HandleJump");
         KeyCode jumpKey = (playerID == 1) ? KeyCode.W : KeyCode.UpArrow;
 
         if (Input.GetKeyDown(jumpKey) && isGrounded)
@@ -110,9 +113,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyUp(jumpKey) && isGrounded)
         {
-            float holdTime = Time.time - jumpPressTime;
+            float holdTime = Mathf.Clamp(Time.time - jumpPressTime,0.1f,1f);
             float jumpForce = (holdTime >= holdJumpThreshold) ? highJumpForce : normalJumpForce;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            Debug.Log("Input.GetKeyUp");
+
         }
     }
 
@@ -129,21 +134,38 @@ public class PlayerMovement : MonoBehaviour
         transform.position = clampedPosition;
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
         {
             isGrounded = true;
+            Debug.Log("OnTriggerEnter2D");
+
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
+        {
+            isGrounded = true;
+            Debug.Log("OnTriggerEnter2D");
+
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
         {
             isGrounded = false;
+            Debug.Log("OnTriggerExit2D");
         }
     }
+
+
+
+
 
     public void Die()
     {
