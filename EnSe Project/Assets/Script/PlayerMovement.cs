@@ -11,12 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject boxingGlovePrefab;
     public Transform gloveSpawnPoint;
     public float throwForce = 15f;
-
     private Rigidbody2D rb;
     private bool isGrounded = false;
     private float jumpPressTime = 0f;
     private bool canThrow = true;
     private GameObject currentGlove;
+    private bool isInvincible = false; // Prevents immediate death
 
     void Start()
     {
@@ -38,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
             ThrowBoxingGlove();
         }
 
-        // Keep glove attached to player until thrown
         if (currentGlove != null)
         {
             currentGlove.transform.position = gloveSpawnPoint.position;
@@ -77,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
 
         currentGlove.transform.SetParent(null);
 
-        // Get direction from player to mouse cursor
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Vector2 throwDirection = (mousePosition - currentGlove.transform.position).normalized;
@@ -149,7 +147,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
+        if (isInvincible) return; // Prevent death if recently killed an enemy
+
         Debug.Log("Player died!");
         gameObject.SetActive(false);
+    }
+
+    public void SetInvincible()
+    {
+        isInvincible = true;
+        Invoke("ResetInvincibility", 0.1f); // 100ms invincibility
+    }
+
+    private void ResetInvincibility()
+    {
+        isInvincible = false;
     }
 }

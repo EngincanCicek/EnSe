@@ -17,6 +17,7 @@ public class EnemyHeadTrigger : MonoBehaviour
 
             if (player != null)
             {
+                player.SetInvincible(); // Prevents instant death after kill
                 enemy.Die();
 
                 // Small jump effect
