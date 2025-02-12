@@ -6,14 +6,19 @@ public class PlatformSpawner : MonoBehaviour
     public Transform cameraTransform; // Main camera
     public float platformWidth = 15f; // Platform width
     public float minHeight = -2f, maxHeight = 2f; // Random height range
+    public int platformCount = 5; // Number of platforms to spawn initially
 
     private Vector3 lastPlatformPosition; // Last spawned platform position
+    private int spawnedPlatforms = 0; // Track the number of spawned platforms
 
     void Start()
     {
-        // Place the first platform
+        // Spawn the initial set of platforms
         lastPlatformPosition = transform.position;
-        SpawnPlatform();
+        for (int i = 0; i < platformCount; i++)
+        {
+            SpawnPlatform();
+        }
     }
 
     void Update()
@@ -28,8 +33,7 @@ public class PlatformSpawner : MonoBehaviour
 
     bool ShouldSpawnNewPlatform()
     {
-        // Spawn a new platform when the last one is near the camera's edge
-        return lastPlatformPosition.x < cameraTransform.position.x + (cameraTransform.GetComponent<Camera>().orthographicSize * 2);
+        return spawnedPlatforms < platformCount || lastPlatformPosition.x < cameraTransform.position.x + (cameraTransform.GetComponent<Camera>().orthographicSize * 2);
     }
 
     void SpawnPlatform()
@@ -43,20 +47,21 @@ public class PlatformSpawner : MonoBehaviour
 
         // Update last platform position
         lastPlatformPosition = spawnPosition;
+
+        // Ensure the number of spawned platforms remains consistent
+        spawnedPlatforms++;
     }
 
     void DestroyOldPlatforms()
     {
-        // Get the world position of the left camera edge
         float cameraLeftEdge = Camera.main.ViewportToWorldPoint(new Vector3(0, 0.5f, 0)).x;
 
-        // Check all objects with the "Platform" tag
         foreach (GameObject platform in GameObject.FindGameObjectsWithTag("Platform"))
         {
-            // Destroy platforms that are off the left screen
             if (platform.transform.position.x + platformWidth < cameraLeftEdge)
             {
                 Destroy(platform);
+                spawnedPlatforms--; // Adjust the count when platforms are removed
             }
         }
     }

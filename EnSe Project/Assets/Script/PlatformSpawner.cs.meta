@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: cb487eaef65927d43835d4a4f63dba4a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - platformPrefab: {fileID: 306400736889025828, guid: 3af7137942ea4594fa80f380c9f57f79, type: 3}
+  - cameraTransform: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
