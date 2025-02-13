@@ -81,17 +81,17 @@ public class EnemySpawner : MonoBehaviour
     {
         float randomValue = Random.value;
 
-        if (randomValue <= 0.5f)
-        {
+        if (randomValue <= 0.4f)
+        { 
             return enemyPrefabs[0];
         }
         else if (randomValue <= 0.8f)
         {
-            return enemyPrefabs[1];
+            return enemyPrefabs[2];
         }
         else
         {
-            return enemyPrefabs[2];
+            return enemyPrefabs[1];
         }
     }
 
