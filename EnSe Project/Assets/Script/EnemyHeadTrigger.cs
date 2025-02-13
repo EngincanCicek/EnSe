@@ -30,7 +30,11 @@ public class EnemyHeadTrigger : MonoBehaviour
         }
         else if (collision.CompareTag("BoxingGlove"))
         {
-            Destroy(enemy.gameObject);
+            Debug.Log("Boxing Glove hit enemy's head!");
+
+            SoundManager.instance.PlaySound(SoundManager.instance.enemyDeathSound);
+
+            enemy.Die(); // Ensure Die() is used to trigger death sound
             Destroy(collision.gameObject);
         }
     }

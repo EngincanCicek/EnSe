@@ -78,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
 
         currentGlove.transform.SetParent(null);
 
+        SoundManager.instance.PlaySound(SoundManager.instance.enemyJumpSound);
+
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Vector2 throwDirection = (mousePosition - currentGlove.transform.position).normalized;
@@ -165,8 +167,10 @@ public class PlayerMovement : MonoBehaviour
 
         SoundManager.instance.PlaySound(SoundManager.instance.playerDeathSound);
 
-        gameObject.SetActive(false);
+        // Restart
+        GameManager.instance.PlayerDied();
     }
+
 
     public void SetInvincible()
     {

@@ -4,9 +4,12 @@ public class Enemy : MonoBehaviour
 {
     public virtual void Die()
     {
-        SoundManager.instance.PlaySound(SoundManager.instance.enemyDeathSound);
+        if (SoundManager.instance != null && SoundManager.instance.enemyDeathSound != null)
+        {
+            SoundManager.instance.PlaySound(SoundManager.instance.enemyDeathSound);
+        }
 
-        Destroy(gameObject); // Destroy enemy
+        Destroy(gameObject); 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -18,7 +21,7 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 Debug.Log("Player hit from the side or bottom, died!");
-                player.Die(); // Kill player
+                player.Die(); 
             }
         }
     }
