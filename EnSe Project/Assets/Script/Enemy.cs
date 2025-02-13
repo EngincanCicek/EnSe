@@ -4,6 +4,8 @@ public class Enemy : MonoBehaviour
 {
     public virtual void Die()
     {
+        SoundManager.instance.PlaySound(SoundManager.instance.enemyDeathSound);
+
         Destroy(gameObject); // Destroy enemy
     }
 
@@ -15,8 +17,7 @@ public class Enemy : MonoBehaviour
 
             if (player != null)
             {
-
-                Debug.Log("Player yandan veya alttan çarptý, öldü!");
+                Debug.Log("Player hit from the side or bottom, died!");
                 player.Die(); // Kill player
             }
         }

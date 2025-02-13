@@ -68,5 +68,10 @@ public class EnemyFast : Enemy
     {
         lastJumpTime = Time.time;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+        if (SoundManager.instance != null)
+        {
+            // SoundManager.instance.PlaySound(SoundManager.instance.enemyJumpSound); // Maybe not a good idea...
+        }
     }
 }

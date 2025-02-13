@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpPressTime = 0f;
     private bool canThrow = true;
     private GameObject currentGlove;
-    private bool isInvincible = false; // Prevents immediate death
-    private Collider2D foot; 
+    private bool isInvincible = false;
+    private Collider2D foot;
 
     void Start()
     {
@@ -103,7 +103,6 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleJump()
     {
-        Debug.Log("HandleJump");
         KeyCode jumpKey = (playerID == 1) ? KeyCode.W : KeyCode.UpArrow;
 
         if (Input.GetKeyDown(jumpKey) && isGrounded)
@@ -113,11 +112,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyUp(jumpKey) && isGrounded)
         {
-            float holdTime = Mathf.Clamp(Time.time - jumpPressTime,0.1f,1f);
+            float holdTime = Mathf.Clamp(Time.time - jumpPressTime, 0.1f, 1f);
             float jumpForce = (holdTime >= holdJumpThreshold) ? highJumpForce : normalJumpForce;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            Debug.Log("Input.GetKeyUp");
 
+            SoundManager.instance.PlaySound(SoundManager.instance.playerJumpSound);
         }
     }
 
@@ -134,23 +133,19 @@ public class PlayerMovement : MonoBehaviour
         transform.position = clampedPosition;
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
         {
             isGrounded = true;
-            Debug.Log("OnTriggerEnter2D");
-
         }
     }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
         {
             isGrounded = true;
-            Debug.Log("OnTriggerEnter2D");
-
         }
     }
 
@@ -159,19 +154,17 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Obstacle"))
         {
             isGrounded = false;
-            Debug.Log("OnTriggerExit2D");
         }
     }
 
-
-
-
-
     public void Die()
     {
-        if (isInvincible) return; // Prevent death if recently killed an enemy
+        if (isInvincible) return;
 
         Debug.Log("Player died!");
+
+        SoundManager.instance.PlaySound(SoundManager.instance.playerDeathSound);
+
         gameObject.SetActive(false);
     }
 

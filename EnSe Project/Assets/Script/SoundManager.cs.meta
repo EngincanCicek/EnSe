@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: b4b1ce454aee58d47b82648d4491e10f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - collectPointSound: {fileID: 8300000, guid: e9293369ffb96c949a5df7858de60359, type: 3}
+  - enemyFlySound: {instanceID: 0}
+  - enemyJumpSound: {fileID: 8300000, guid: b643c63c221abc641b78373f118738d8, type: 3}
+  - playerJumpSound: {fileID: 8300000, guid: a0f694fbd5c256d4dbcf71dba27ca607, type: 3}
+  - playerDeathSound: {fileID: 8300000, guid: 65401f8a1d84a0f47bc2295cc8191663, type: 3}
+  - enemyDeathSound: {fileID: 8300000, guid: b36714b6389fdb54293eaa72797a1cef, type: 3}
+  - gameOverSound: {fileID: 8300000, guid: e2cd6cd00b1337c488d526395889f4c6, type: 3}
+  - backgroundMusic: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

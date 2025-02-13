@@ -4,10 +4,12 @@ public class Heart : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) 
+        if (collision.CompareTag("Player"))
         {
-            HeartManager.instance.AddHeart(); 
-            Destroy(gameObject); 
+            SoundManager.instance.PlaySound(SoundManager.instance.collectPointSound);
+
+            HeartManager.instance.AddHeart();
+            Destroy(gameObject);
         }
     }
 }
