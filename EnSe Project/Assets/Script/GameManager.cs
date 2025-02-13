@@ -112,4 +112,5 @@ public class GameManager : MonoBehaviour
         Debug.Log("A player died. Restarting game...");
         RestartGame(); // Restart the game if a player dies
     }
+
 }

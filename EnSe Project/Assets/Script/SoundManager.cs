@@ -75,6 +75,13 @@ public class SoundManager : MonoBehaviour
     public void ToggleAmbientSounds()
     {
         ambientEnabled = !ambientEnabled;
+
+        if (!ambientEnabled && ambientSource.isPlaying)
+        {
+            ambientSource.Stop(); // Stop currently playing ambient sound immediately
+            isPlayingAmbient = false;
+        }
+
         Debug.Log("Ambient sounds " + (ambientEnabled ? "enabled" : "disabled"));
     }
 
@@ -93,8 +100,14 @@ public class SoundManager : MonoBehaviour
                     ambientSource.PlayOneShot(randomClip);
                     Debug.Log("Playing ambient sound: " + randomClip.name);
 
-                    // Wait until the sound finishes playing
-                    yield return new WaitForSeconds(randomClip.length);
+                    // Wait until the sound finishes playing or ambient is disabled
+                    float elapsedTime = 0f;
+                    while (elapsedTime < randomClip.length && ambientEnabled)
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                        elapsedTime += 0.1f;
+                    }
+
                     isPlayingAmbient = false;
                 }
             }
