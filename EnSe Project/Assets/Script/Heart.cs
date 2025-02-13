@@ -7,8 +7,7 @@ public class Heart : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             SoundManager.instance.PlaySound(SoundManager.instance.collectPointSound);
-
-            HeartManager.instance.AddHeart();
+            GameManager.instance.AddHeart(); // Update heart count
             Destroy(gameObject);
         }
     }
