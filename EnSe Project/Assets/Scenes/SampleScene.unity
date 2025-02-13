@@ -1710,6 +1710,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037655389}
   m_CullTransparentMesh: 1
+--- !u!1 &1192530462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1192530464}
+  - component: {fileID: 1192530463}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1192530463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192530462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0949ed94bf03a334eafdbb2fcbf330fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMenuCanvas: {fileID: 88874155}
+  winScreenCanvas: {fileID: 1956524953}
+  heartText: {fileID: 1881548712}
+  restartButton: {fileID: 101891420}
+  toggleMusicButton: {fileID: 1037655391}
+  toggleAmbientButton: {fileID: 0}
+--- !u!4 &1192530464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192530462}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 670.6879, y: 471.5822, z: -5.8760495}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239611255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,8 +2457,11 @@ MonoBehaviour:
   playerJumpSound: {fileID: 8300000, guid: a0f694fbd5c256d4dbcf71dba27ca607, type: 3}
   playerDeathSound: {fileID: 8300000, guid: 65401f8a1d84a0f47bc2295cc8191663, type: 3}
   enemyDeathSound: {fileID: 8300000, guid: b36714b6389fdb54293eaa72797a1cef, type: 3}
-  gameOverSound: {fileID: 8300000, guid: e2cd6cd00b1337c488d526395889f4c6, type: 3}
+  gameOverSound: {fileID: 8300000, guid: b91c7ea6a1891234e973e9bd7dd7ffec, type: 3}
   backgroundMusic: {fileID: 8300000, guid: f4190fa6c5c602e48b372a63f07195f9, type: 3}
+  ambientSounds:
+  - {fileID: 8300000, guid: 7999b9e6e89b521468838506e361ebbe, type: 3}
+  - {fileID: 8300000, guid: 31a74e0beb9228d439aa71db9fa60ea1, type: 3}
 --- !u!4 &1715028415
 Transform:
   m_ObjectHideFlags: 0
@@ -2753,7 +2806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1931824558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2855,7 +2908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1956524954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3008,3 +3061,4 @@ SceneRoots:
   - {fileID: 1715028415}
   - {fileID: 88874159}
   - {fileID: 1956524957}
+  - {fileID: 1192530464}

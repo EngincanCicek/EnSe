@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] ambientSounds; // Array of ambient sounds
 
     private bool isPlayingAmbient = false; // Prevents overlapping ambient sounds
+    private bool ambientEnabled = true; // Ambient sounds toggle
 
     void Awake()
     {
@@ -53,7 +54,7 @@ public class SoundManager : MonoBehaviour
 
         ambientSource = gameObject.AddComponent<AudioSource>();
         ambientSource.loop = false;
-        ambientSource.volume = 0.25f; // 0.25 Half volume compared to normal effects
+        ambientSource.volume = 0.25f; // Lower volume for ambient sounds
 
         StartCoroutine(PlayRandomAmbientSound());
     }
@@ -71,15 +72,21 @@ public class SoundManager : MonoBehaviour
         musicSource.mute = !musicSource.mute;
     }
 
+    public void ToggleAmbientSounds()
+    {
+        ambientEnabled = !ambientEnabled;
+        Debug.Log("Ambient sounds " + (ambientEnabled ? "enabled" : "disabled"));
+    }
+
     private IEnumerator PlayRandomAmbientSound()
     {
         while (true)
         {
             yield return new WaitForSeconds(1f); // Check every second
 
-            if (!isPlayingAmbient && ambientSounds.Length > 0 && Time.timeScale > 0) // Only play if game is running
+            if (ambientEnabled && !isPlayingAmbient && ambientSounds.Length > 0 && Time.timeScale > 0)
             {
-                if (Random.value < 0.5f) // 25% chance per second
+                if (Random.value < 0.05f) // 5% chance per second
                 {
                     isPlayingAmbient = true;
                     AudioClip randomClip = ambientSounds[Random.Range(0, ambientSounds.Length)];

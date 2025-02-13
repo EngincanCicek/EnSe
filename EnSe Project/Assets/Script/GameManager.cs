@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text heartText; // Heart count UI
     public Button restartButton;
     public Button toggleMusicButton;
+    public Button toggleAmbientButton; // New button for ambient sounds
 
     private int heartCount = 0;
     private int winCondition = 23; // Hearts required to win
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
 
         restartButton.onClick.AddListener(RestartGame);
         toggleMusicButton.onClick.AddListener(ToggleMusic);
+        toggleAmbientButton.onClick.AddListener(ToggleAmbient); // Bind new button
 
         UpdateUI();
     }
@@ -84,6 +86,11 @@ public class GameManager : MonoBehaviour
     public void ToggleMusic()
     {
         SoundManager.instance.ToggleMusic();
+    }
+
+    public void ToggleAmbient()
+    {
+        SoundManager.instance.ToggleAmbientSounds();
     }
 
     void TogglePauseMenu()
