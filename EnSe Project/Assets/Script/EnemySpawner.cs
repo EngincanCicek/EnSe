@@ -50,8 +50,8 @@ public class EnemySpawner : MonoBehaviour
         {
             Vector2 spawnPosition = SpawnEnemy();
 
-            // 80% chance to spawn a heart
-            if (Random.value < 0.8f && heartSpawner != null)
+            // % chance to spawn a heart
+            if (Random.value < 0.33f && heartSpawner != null)
             {
                 Debug.Log("Spawning Heart at: " + spawnPosition);
                 heartSpawner.SpawnHeart(spawnPosition);

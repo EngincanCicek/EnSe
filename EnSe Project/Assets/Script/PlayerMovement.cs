@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
             gloveRb.linearVelocity = throwDirection * throwForce;
         }
 
-        Destroy(currentGlove, 1f);
+        Destroy(currentGlove, 0.25f);
         currentGlove = null;
 
         canThrow = false;
